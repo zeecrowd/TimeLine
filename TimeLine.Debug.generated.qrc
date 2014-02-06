@@ -1,0 +1,10 @@
+﻿<?xml version='1.0' encoding='utf-8' standalone='yes'?>
+<RCC>
+	<qresource prefix='/TimeLine'>
+		<file>Packages\TimeLine.cfg</file>
+		<file>Resources\close.png</file>
+		<file>Views\main.qml</file>
+		<file>Views\mainPresenter.js</file>
+		<file>TimeLine.zeeapmanifest</file>
+	</qresource>
+</RCC>

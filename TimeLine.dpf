@@ -1,0 +1,119 @@
+﻿<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<Project Template="QtResourceProject">
+  <Configurations>
+    <Configuration name="Debug">
+      <Properties>
+        <OutputDirectory value="..\Client\bin\Debug\packages\TimeLine" />
+        <ShortNodeName />
+        <IntermediateFilesDirectory value=".\IntermediateFiles\Debug" />
+        <CommandLineArguments value="" />
+        <Executable value="" />
+        <WorkingDirectory value="..\..\..\Foundation\Build\Debug\" />
+      </Properties>
+    </Configuration>
+    <Configuration name="Release">
+      <Properties />
+    </Configuration>
+  </Configurations>
+  <Properties>
+    <ItemsDirectoryRelativePath value="" />
+    <Defines value="" />
+    <EntryPoint value="" />
+    <IncludeDirectories value="" />
+    <TestFramework value="" />
+    <CompressionLevel value="Default" />
+    <CompressionThreshold value="70" />
+    <OutputFileName value="TimeLine" />
+    <ResourceName value="" />
+    <RootPrefix value="TimeLine" />
+  </Properties>
+  <Items>
+    <Item Template="QtResourceProjectFolder">
+      <QtResourceProjectFolder Name="Packages">
+        <Properties />
+        <Items>
+          <Item Template="QtResourceFile">
+            <QtResourceFile FileName="TimeLine.cfg">
+              <Properties>
+                <BuildAction value="Compile" />
+                <Alias value="" />
+                <CopyToOutputDirectory value="Never" />
+                <CustomTool value="" />
+                <Locale value="" />
+              </Properties>
+              <Items />
+            </QtResourceFile>
+          </Item>
+        </Items>
+      </QtResourceProjectFolder>
+    </Item>
+    <Item Template="QtResourceProjectFolder">
+      <QtResourceProjectFolder Name="Views">
+        <Properties />
+        <Items>
+          <Item Template="QtResourceFile">
+            <QtResourceFile FileName="main.qml">
+              <Properties>
+                <BuildAction value="Compile" />
+                <Alias value="" />
+                <CopyToOutputDirectory value="Never" />
+                <CustomTool value="" />
+                <Locale value="" />
+              </Properties>
+              <Items />
+            </QtResourceFile>
+          </Item>
+          <Item Template="QtResourceFile">
+            <QtResourceFile FileName="mainPresenter.js">
+              <Properties>
+                <BuildAction value="Compile" />
+                <Locale value="" />
+                <Alias value="" />
+              </Properties>
+              <Items />
+            </QtResourceFile>
+          </Item>
+        </Items>
+      </QtResourceProjectFolder>
+    </Item>
+    <Item Template="QtResourceFile">
+      <QtResourceFile FileName="TimeLine.cfg">
+        <Properties>
+          <BuildAction value="Content" />
+          <Alias value="" />
+          <CopyToOutputDirectory value="OnlyIfNewer" />
+          <CustomTool value="" />
+          <Locale value="" />
+          <CopyAs value="" />
+        </Properties>
+        <Items />
+      </QtResourceFile>
+    </Item>
+    <Item Template="QtResourceFile">
+      <QtResourceFile FileName="TimeLine.zeeapmanifest">
+        <Properties>
+          <BuildAction value="Compile" />
+          <CustomTool value="" />
+          <Locale value="" />
+          <Alias value="" />
+        </Properties>
+        <Items />
+      </QtResourceFile>
+    </Item>
+    <Item Template="QtResourceProjectFolder">
+      <QtResourceProjectFolder Name="Resources">
+        <Properties />
+        <Items>
+          <Item Template="QtResourceFile">
+            <QtResourceFile FileName="close.png">
+              <Properties>
+                <BuildAction value="Compile" />
+              </Properties>
+              <Items />
+            </QtResourceFile>
+          </Item>
+        </Items>
+      </QtResourceProjectFolder>
+    </Item>
+  </Items>
+</Project>
