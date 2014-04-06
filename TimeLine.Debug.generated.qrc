@@ -5,6 +5,7 @@
 		<file>Resources\close.png</file>
 		<file>Resources\new.png</file>
 		<file>Resources\day.png</file>
+		<file>Resources\remove.png</file>
 		<file>Views\DayLineDelegate.qml</file>
 		<file>Views\EventDelegate.qml</file>
 		<file>Views\main.qml</file>

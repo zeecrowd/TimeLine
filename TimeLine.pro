@@ -3,5 +3,6 @@ OTHER_FILES += \
     Packages/TimeLine.cfg \
     Views/mainPresenter.js \
     Views/DayLineDelegate.qml \
-    Views/EventDelegate.qml
+    Views/EventDelegate.qml \
+    Views/Validator.qml
   

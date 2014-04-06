@@ -75,6 +75,16 @@
             <QtResourceFile FileName="day.png">
               <Properties>
                 <BuildAction value="Compile" />
+                <Locale value="" />
+                <Alias value="" />
+              </Properties>
+              <Items />
+            </QtResourceFile>
+          </Item>
+          <Item Template="QtResourceFile">
+            <QtResourceFile FileName="remove.png">
+              <Properties>
+                <BuildAction value="Compile" />
               </Properties>
               <Items />
             </QtResourceFile>

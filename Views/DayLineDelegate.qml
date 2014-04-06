@@ -52,17 +52,63 @@ Rectangle
                 MouseArea
                 {
                     anchors.fill: parent
-                    onClicked: {
-                        plans.append({desc:"Description de whatever"})
+                    acceptedButtons: Qt.LeftButton
+                    onClicked:
+                    {
+                        plans.append({desc:"Description de l'event"})
                     }
                 }
             }
+            TextInput
+            {
+                font.pixelSize: 22
+                font.bold: true
+                color: "#800020"
+                anchors.verticalCenter: newEvent.verticalCenter
+                inputMask:"99/99/9999"
+                text:"25/12/2000"
+                selectByMouse:true
+                onAccepted:
+                {
+                    var test = text.split('/')
+                    var date = new Date(test[2], test[1]*1-1, test[0])
+                    dayFullName.text = Qt.formatDate( date, "dddd d MMMM yyyy" )
+                }
+                onFocusChanged:
+                {
+                    var test = text.split('/')
+                    var date = new Date(test[2], test[1]*1-1, test[0])
+                    dayFullName.text = Qt.formatDate( date, "dddd d MMMM yyyy" )
+                }
+                /*onEditingFinished:
+                {
+
+                }*/
+            }
             Text
             {
-                font.pixelSize: 25
+                font.pixelSize: 22
+                text:" - "
+                color: "#800020"
+                anchors.verticalCenter: newEvent.verticalCenter
+            }
+            Text
+            {
+                id: dayFullName
+                font.pixelSize: 22
+                font.bold: true
                 text:theDay
                 color: "#800020"
                 anchors.verticalCenter: newEvent.verticalCenter
+                MouseArea
+                {
+                    anchors.fill: parent
+                    acceptedButtons: Qt.RightButton
+                    onClicked:
+                    {
+                        days.remove(index)
+                    }
+                }
             }
         }
 
