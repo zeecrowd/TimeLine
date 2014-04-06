@@ -23,8 +23,8 @@ copy %SRC%\%NAME%.cfg %OUTPUT%
 ### Linux
 
 Soon. In progress.
-For more see the [Zeecrowd website](http://www.zeecrowd.com/fr/page/405/zeecrowd-soon-available-on-linux-android-and-osx-are-next)
+For more informations check the [Zeecrowd website](http://www.zeecrowd.com/fr/page/405/zeecrowd-soon-available-on-linux-android-and-osx-are-next)
 
 ### Licensing
 
-TimeLine is an open source product. We support a Community edition under the GPLv3 license.
+TimeLine is an open source product provided under the GPLv3 license.
