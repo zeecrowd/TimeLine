@@ -3,6 +3,10 @@
 	<qresource prefix='/TimeLine'>
 		<file>Packages\TimeLine.cfg</file>
 		<file>Resources\close.png</file>
+		<file>Resources\new.png</file>
+		<file>Resources\day.png</file>
+		<file>Views\DayLineDelegate.qml</file>
+		<file>Views\EventDelegate.qml</file>
 		<file>Views\main.qml</file>
 		<file>Views\mainPresenter.js</file>
 		<file>TimeLine.zeeapmanifest</file>

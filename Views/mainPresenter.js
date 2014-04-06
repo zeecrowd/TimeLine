@@ -17,12 +17,16 @@
 ** HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE)
 ** ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 */
+
 var instance = new Object();
 
-instance.forEachInArray = function(array, delegate)
+function initPresenter()
 {
-    for (var i=0;i<array.length;i++)
+    instance.forEachInArray = function(array, delegate)
     {
-        delegate(array[i]);
+        for (var i=0;i<array.length;i++)
+        {
+            delegate(array[i]);
+        }
     }
 }

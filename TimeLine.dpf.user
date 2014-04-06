@@ -2,7 +2,10 @@
 <Project name="TimeLine">
   <Configurations>
     <Configuration name="Debug">
-      <UserPreferences />
+      <UserPreferences>
+        <CommandLineArguments value="" />
+        <Executable value="" />
+      </UserPreferences>
     </Configuration>
     <Configuration name="Release">
       <UserPreferences />

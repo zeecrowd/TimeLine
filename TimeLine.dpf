@@ -3,7 +3,7 @@
   <Configurations>
     <Configuration name="Debug">
       <Properties>
-        <OutputDirectory value="..\Client\bin\Debug\packages\TimeLine" />
+        <OutputDirectory value="..\..\..\..\..\dev\ZC\Crowd\Source\Client\bin\Debug\packages\TimeLine\" />
         <ShortNodeName />
         <IntermediateFilesDirectory value=".\IntermediateFiles\Debug" />
         <CommandLineArguments value="" />
@@ -48,9 +48,64 @@
       </QtResourceProjectFolder>
     </Item>
     <Item Template="QtResourceProjectFolder">
+      <QtResourceProjectFolder Name="Resources">
+        <Properties />
+        <Items>
+          <Item Template="QtResourceFile">
+            <QtResourceFile FileName="close.png">
+              <Properties>
+                <BuildAction value="Compile" />
+                <Locale value="" />
+                <Alias value="" />
+              </Properties>
+              <Items />
+            </QtResourceFile>
+          </Item>
+          <Item Template="QtResourceFile">
+            <QtResourceFile FileName="new.png">
+              <Properties>
+                <BuildAction value="Compile" />
+                <Locale value="" />
+                <Alias value="" />
+              </Properties>
+              <Items />
+            </QtResourceFile>
+          </Item>
+          <Item Template="QtResourceFile">
+            <QtResourceFile FileName="day.png">
+              <Properties>
+                <BuildAction value="Compile" />
+              </Properties>
+              <Items />
+            </QtResourceFile>
+          </Item>
+        </Items>
+      </QtResourceProjectFolder>
+    </Item>
+    <Item Template="QtResourceProjectFolder">
       <QtResourceProjectFolder Name="Views">
         <Properties />
         <Items>
+          <Item Template="QtResourceFile">
+            <QtResourceFile FileName="DayLineDelegate.qml">
+              <Properties>
+                <BuildAction value="Compile" />
+                <Locale value="" />
+                <Alias value="" />
+              </Properties>
+              <Items />
+            </QtResourceFile>
+          </Item>
+          <Item Template="QtResourceFile">
+            <QtResourceFile FileName="EventDelegate.qml">
+              <Properties>
+                <BuildAction value="Compile" />
+                <Locale value="" />
+                <Alias value="" />
+              </Properties>
+              <Items />
+            </QtResourceFile>
+          </Item>
           <Item Template="QtResourceFile">
             <QtResourceFile FileName="main.qml">
               <Properties>
@@ -99,21 +154,6 @@
         </Properties>
         <Items />
       </QtResourceFile>
-    </Item>
-    <Item Template="QtResourceProjectFolder">
-      <QtResourceProjectFolder Name="Resources">
-        <Properties />
-        <Items>
-          <Item Template="QtResourceFile">
-            <QtResourceFile FileName="close.png">
-              <Properties>
-                <BuildAction value="Compile" />
-              </Properties>
-              <Items />
-            </QtResourceFile>
-          </Item>
-        </Items>
-      </QtResourceProjectFolder>
     </Item>
   </Items>
 </Project>
