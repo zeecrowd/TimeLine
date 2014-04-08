@@ -62,7 +62,7 @@
             </QtResourceFile>
           </Item>
           <Item Template="QtResourceFile">
-            <QtResourceFile FileName="new.png">
+            <QtResourceFile FileName="day.png">
               <Properties>
                 <BuildAction value="Compile" />
                 <Locale value="" />
@@ -72,7 +72,7 @@
             </QtResourceFile>
           </Item>
           <Item Template="QtResourceFile">
-            <QtResourceFile FileName="day.png">
+            <QtResourceFile FileName="new.png">
               <Properties>
                 <BuildAction value="Compile" />
                 <Locale value="" />
@@ -85,6 +85,8 @@
             <QtResourceFile FileName="remove.png">
               <Properties>
                 <BuildAction value="Compile" />
+                <Locale value="" />
+                <Alias value="" />
               </Properties>
               <Items />
             </QtResourceFile>
@@ -134,6 +136,14 @@
                 <BuildAction value="Compile" />
                 <Locale value="" />
                 <Alias value="" />
+              </Properties>
+              <Items />
+            </QtResourceFile>
+          </Item>
+          <Item Template="QtResourceFile">
+            <QtResourceFile FileName="tools.js">
+              <Properties>
+                <BuildAction value="Compile" />
               </Properties>
               <Items />
             </QtResourceFile>

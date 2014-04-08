@@ -18,20 +18,24 @@
 * You should have received a copy of the GNU General Public License
 * along with this program. If not, see <http://www.gnu.org/licenses/>.
 */
-import QtQuick 2.0
+import QtQuick 2.2
 import QtQuick.Controls 1.0
 import QtQuick.Controls.Styles 1.0
 import QtQuick.Layouts 1.0
+
+import "tools.js" as Tools
 
 Rectangle
 {
     id: dayLineDelegate
     width : wholeView.width
+    property alias eventModel : plans
 
     ListModel
     {
         id:plans
     }
+
     Column
     {
         id: dayLineColumn
@@ -56,35 +60,41 @@ Rectangle
                     acceptedButtons: Qt.LeftButton
                     onClicked:
                     {
-                        plans.append({desc:"Description de l'event"})
+                        var id = Tools.generateId()
+                        var tmp =
+                                {
+                                    dayId: dayId,
+                                    evtId: id,
+                                    desc : "Description de l'event",
+                                    from : "08:00",
+                                    to   : "08:00"
+                                }
+                        eventDefinition.setItem(id,JSON.stringify(tmp))
                     }
                 }
             }
             TextInput
             {
+                id:dateInput
                 font.pixelSize: 22
                 font.bold: true
                 color: "#800020"
                 anchors.verticalCenter: newEvent.verticalCenter
                 inputMask:"99/99/9999"
-                text:"25/12/2000"
+                text:date
                 selectByMouse:true
-                onAccepted:
+                onEditingFinished:
                 {
-                    var test = text.split('/')
-                    var date = new Date(test[2], test[1]*1-1, test[0])
-                    dayFullName.text = Qt.formatDate( date, "dddd d MMMM yyyy" )
+                    if (text === date)
+                        return;
+                    dayLineDelegate.refreshDate()
+                    var tmp =
+                            {
+                                dayId: dayId,
+                                date : text
+                            }
+                    dateDefinition.setItem(dayId,JSON.stringify(tmp))
                 }
-                onFocusChanged:
-                {
-                    var test = text.split('/')
-                    var date = new Date(test[2], test[1]*1-1, test[0])
-                    dayFullName.text = Qt.formatDate( date, "dddd d MMMM yyyy" )
-                }
-                /*onEditingFinished:
-                {
-
-                }*/
             }
             Text
             {
@@ -98,7 +108,7 @@ Rectangle
                 id: dayFullName
                 font.pixelSize: 22
                 font.bold: true
-                text:theDay
+                text:"theDay"
                 color: "#800020"
                 anchors.verticalCenter: newEvent.verticalCenter
                 MouseArea
@@ -107,7 +117,15 @@ Rectangle
                     acceptedButtons: Qt.RightButton
                     onClicked:
                     {
-                        days.remove(index)
+                        dateDefinition.deleteItem(dayId)
+                        for (var i = 0; i < plans.count; ++i)
+                        {
+                            var elt = plans.get(i)
+                            if (elt !== null && elt !== undefined)
+                            {
+                                eventDefinition.deleteItem(elt.evtId)
+                            }
+                        }
                     }
                 }
             }
@@ -127,5 +145,12 @@ Rectangle
                 }
             }
         }
+    }
+
+    function refreshDate()
+    {
+        var split = dateInput.text.split('/')
+        var date = new Date(split[2], split[1]*1-1, split[0])
+        dayFullName.text = Qt.formatDate( date, "dddd d MMMM yyyy" ).toUpperCase()
     }
 }

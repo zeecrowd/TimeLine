@@ -4,5 +4,6 @@ OTHER_FILES += \
     Views/mainPresenter.js \
     Views/DayLineDelegate.qml \
     Views/EventDelegate.qml \
-    Views/Validator.qml
+    Views/Validator.qml \
+    Views/tools.js
   

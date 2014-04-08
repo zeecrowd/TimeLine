@@ -23,12 +23,12 @@ import QtQuick.Controls 1.0
 import QtQuick.Controls.Styles 1.0
 import QtQuick.Layouts 1.0
 
-import ZcClient 1.0
+import ZcClient 1.0 as Zc
 
 import "mainPresenter.js" as Presenter
+import "tools.js" as Tools
 
-
-ZcAppView
+Zc.AppView
 {
     id : mainView
 
@@ -57,7 +57,7 @@ ZcAppView
             id: addAction
             shortcut: "Ctrl+T"
             iconSource: "qrc:/TimeLine/Resources/day.png"
-            tooltip : "Add Event"
+            tooltip : "Add New Day"
             onTriggered:
             {
                 mainView.addDay();
@@ -67,12 +67,12 @@ ZcAppView
 
     onLoaded :
     {
-        //activity.start();
+        activity.start();
     }
 
     onClosed :
     {
-        //activity.stop();
+        activity.stop();
     }
 
     function closeTask()
@@ -82,14 +82,19 @@ ZcAppView
 
     function addDay()
     {
-        days.append({theDay:"New Day"})
+        var id = Tools.generateId()
+        var tmp =
+                {
+                    dayId: id,
+                    date : "28/03/2005"
+                }
+        dateDefinition.setItem(id,JSON.stringify(tmp))
     }
 
     ListModel
     {
         id:days
     }
-
 
     ScrollView
     {
@@ -114,19 +119,66 @@ ZcAppView
         }
     }
 
-    /*ZcCrowdActivity
+    Zc.CrowdActivity
     {
         id : activity
 
-        ZcCrowdActivityItems
+        onStarted:
         {
-            ZcQueryStatus
+            dateDefinition.loadItems(dateDefinitionItemQueryStatus)
+        }
+
+        Zc.CrowdActivityItems
+        {
+            Zc.QueryStatus
             {
                 id : eventDefinitionItemQueryStatus
 
-                onCompleted :
+                onCompleted:
                 {
-                    eventPosition.loadItems(eventPositionItemQueryStatus);
+                    var allDateItems = dateDefinition.getAllItems();
+                    if (allDateItems === null)
+                        return;
+                    Tools.forEachInArray(allDateItems,function(idItem)
+                            {
+                                var val = dateDefinition.getItem(idItem,"");
+                                var o = Tools.parseDatas(val)
+                                days.append({
+                                                dayId: o.dayId,
+                                                date : o.date
+                                            })
+                                var elt = bodyRepeaterId.itemAt(days.count - 1)
+                                elt.refreshDate()
+                            });
+
+                    var allEventItems = eventDefinition.getAllItems();
+                    if (allEventItems === null)
+                        return;
+                    Tools.forEachInArray(allEventItems,function(idItem)
+                            {
+                                var val = eventDefinition.getItem(idItem,"");
+                                var o = Tools.parseDatas(val)
+                                var dayIndex = Tools.getIndexInListModel(days, function(x) {return x.dayId === o.dayId})
+                                if (dayIndex !== -1)
+                                {
+                                    var elt = bodyRepeaterId.itemAt(dayIndex)
+                                    elt.eventModel.append({
+                                                         dayId: o.dayId,
+                                                         evtId: o.evtId,
+                                                         desc : o.desc,
+                                                         from : o.from,
+                                                         to   : o.to
+                                                     })
+                                }
+                            });
+
+                }
+
+                onErrorOccured:
+                {
+                    console.log(">> ERRROR  : " + error)
+                    console.log(">> ERRROR CAUSE : " + errorCause)
+                    console.log(">> ERRROR MESSAGE : " + errorMessage)
                 }
             }
 
@@ -134,61 +186,87 @@ ZcAppView
             name        : "EventDefinition"
             persistent  : true
 
-            onItemChanged :
+            onItemChanged:
             {
-                mainView.createevent(idItem)
-                var value = eventDefinition.getItem(idItem,"");
-                Presenter.instance[idItem].text = value;
-                Presenter.instance[idItem].idItem = idItem;
+                var val = getItem(idItem,"")
+                var o = Tools.parseDatas(val)
+                var dayIndex = Tools.getIndexInListModel(days, function(x) {return x.dayId === o.dayId})
+                if (dayIndex !== -1)
+                {
+                    var elt = bodyRepeaterId.itemAt(dayIndex)
+                    var evtIndex = Tools.getIndexInListModel(elt.eventModel, function(x) {return x.evtId === idItem})
+                    if (evtIndex === -1)
+                    {
+                        elt.eventModel.append({
+                                             dayId: o.dayId,
+                                             evtId: o.evtId,
+                                             desc : o.desc,
+                                             from : o.from,
+                                             to   : o.to
+                                         })
+                    }
+                    else
+                    {
+                        elt.eventModel.setProperty(evtIndex,"desc",o.desc)
+                        elt.eventModel.setProperty(evtIndex,"from",o.from)
+                        elt.eventModel.setProperty(evtIndex,"to",o.to)
+                    }
+                }
             }
-            onItemDeleted :
+            onItemDeleted:
             {
-                if (Presenter.instance[idItem] === undefined ||
-                        Presenter.instance[idItem] === null)
-                    return;
-                Presenter.instance[idItem].visible = false;
-                Presenter.instance[idItem].parent === null;
-                Presenter.instance[idItem] = null;
+                Tools.removeInDeeperListModel(days, bodyRepeaterId, function(x) {return x.evtId === idItem})
             }
         }
 
-        ZcCrowdActivityItems
+        Zc.CrowdActivityItems
         {
-            ZcQueryStatus
+            Zc.QueryStatus
             {
-                id : eventPositionItemQueryStatus
+                id : dateDefinitionItemQueryStatus
 
                 onCompleted:
                 {
-                    var allItems = eventDefinition.getAllItems();
-                    if (allItems === null)
-                        return;
-                    Presenter.instance.forEachInArray(allItems,function(idItem)
-                    {
-                        mainView.createevent(idItem)
-                        var value = eventDefinition.getItem(idItem,"");
-                        Presenter.instance[idItem].text = value;
-                        Presenter.instance[idItem].idItem = idItem;
+                    eventDefinition.loadItems(eventDefinitionItemQueryStatus)
+                }
 
-                        mainView.setPosition(idItem,eventPosition.getItem(idItem,""));
-                    });
+                onErrorOccured:
+                {
+                    console.log(">> ERRROR  : " + error)
+                    console.log(">> ERRROR CAUSE : " + errorCause)
+                    console.log(">> ERRROR MESSAGE : " + errorMessage)
                 }
             }
 
-            id          : eventPosition
-            name        : "EventPosition"
+            id          : dateDefinition
+            name        : "DateDefinition"
             persistent  : true
 
-            onItemChanged :
+            onItemChanged:
             {
-                var value = eventPosition.getItem(idItem,"");
-                mainView.setPosition(idItem,value);
+                var val = getItem(idItem,"")
+                var index = Tools.getIndexInListModel(days, function(x) {return x.dayId === idItem})
+                var o = Tools.parseDatas(val)
+                if (index === -1)
+                {
+                    days.append({
+                                    dayId: o.dayId,
+                                    date : o.date
+                                })
+                    var elt = bodyRepeaterId.itemAt(days.count - 1)
+                    elt.refreshDate()
+                }
+                else
+                {
+                    days.setProperty(index,"date",o.date)
+                    var elt = bodyRepeaterId.itemAt(index)
+                    elt.refreshDate()
+                }
+            }
+            onItemDeleted:
+            {
+                Tools.removeInListModel(days, function(x) {return x.dayId === idItem})
             }
         }
-
-        onStarted :
-        {
-            eventDefinition.loadItems(eventDefinitionItemQueryStatus);
-        }
-    }*/
+    }
 }

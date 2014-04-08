@@ -18,7 +18,7 @@
 * You should have received a copy of the GNU General Public License
 * along with this program. If not, see <http://www.gnu.org/licenses/>.
 */
-import QtQuick 2.0
+import QtQuick 2.2
 
 Rectangle {
     id: eventDesc
@@ -40,10 +40,24 @@ Rectangle {
                 TextInput
                 {
                     x:10
-                    text: "12:00"
+                    text: from
                     font.pixelSize: 21
                     color:"#536872"
                     inputMask:"99:99"
+                    onEditingFinished:
+                    {
+                        if (text === from)
+                            return;
+                        var tmp =
+                                {
+                                    dayId: dayId,
+                                    evtId: evtId,
+                                    desc : desc,
+                                    from : text,
+                                    to   : to
+                                }
+                        eventDefinition.setItem(evtId,JSON.stringify(tmp))
+                    }
                 }
                 Row
                 {
@@ -56,10 +70,24 @@ Rectangle {
                     }
                     TextInput
                     {
-                        text: "12:00"
+                        text: to
                         font.pixelSize: 21
                         color:"#536872"
                         inputMask:"99:99"
+                        onEditingFinished:
+                        {
+                            if (text === to)
+                                return;
+                            var tmp =
+                                    {
+                                        dayId: dayId,
+                                        evtId: evtId,
+                                        desc : desc,
+                                        from : from,
+                                        to   : text
+                                    }
+                            eventDefinition.setItem(evtId,JSON.stringify(tmp))
+                        }
                     }
                 }
             }
@@ -74,16 +102,20 @@ Rectangle {
             font.pixelSize: 22
             wrapMode: TextInput.Wrap
             selectByMouse:true
-            onAccepted:
+            onEditingFinished:
             {
+                if (text === desc)
+                    return;
+                var tmp =
+                        {
+                            dayId: dayId,
+                            evtId: evtId,
+                            desc : text,
+                            from : from,
+                            to   : to
+                        }
+                eventDefinition.setItem(evtId,JSON.stringify(tmp))
             }
-            onFocusChanged:
-            {
-            }
-            /*onEditingFinished:
-            {
-
-            }*/
         }
     }
     Image
@@ -101,7 +133,7 @@ Rectangle {
             anchors.fill: parent
             onClicked:
             {
-                plans.remove(index)
+                eventDefinition.deleteItem(evtId)
             }
         }
     }
