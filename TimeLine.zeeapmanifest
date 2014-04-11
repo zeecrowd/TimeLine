@@ -3,9 +3,8 @@
   <a:ZeeapManifest.Metadata>
     <a:ZeeapManifestMetaData>
       <a:ZeeapManifestMetaData.AppName>TimeLine</a:ZeeapManifestMetaData.AppName>
-      <a:ZeeapManifestMetaData.Author>ZeeCrowd</a:ZeeapManifestMetaData.Author>
+      <a:ZeeapManifestMetaData.Author>Zeecrowd</a:ZeeapManifestMetaData.Author>
       <a:ZeeapManifestMetaData.Version>100</a:ZeeapManifestMetaData.Version>
-      <a:ZeeapManifestMetaData.Url>htpp://</a:ZeeapManifestMetaData.Url>
       <a:ZeeapManifestMetaData.AppConfig>TimeLine.cfg</a:ZeeapManifestMetaData.AppConfig>
     </a:ZeeapManifestMetaData>
   </a:ZeeapManifest.Metadata>

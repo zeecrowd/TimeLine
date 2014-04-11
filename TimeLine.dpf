@@ -144,6 +144,8 @@
             <QtResourceFile FileName="tools.js">
               <Properties>
                 <BuildAction value="Compile" />
+                <Locale value="" />
+                <Alias value="" />
               </Properties>
               <Items />
             </QtResourceFile>
@@ -171,6 +173,8 @@
           <CustomTool value="" />
           <Locale value="" />
           <Alias value="" />
+          <CopyAs value="" />
+          <CopyToOutputDirectory value="Never" />
         </Properties>
         <Items />
       </QtResourceFile>
