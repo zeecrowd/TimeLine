@@ -6,8 +6,10 @@
 		<file>Resources\day.png</file>
 		<file>Resources\new.png</file>
 		<file>Resources\remove.png</file>
-		<file>Views\DayLineDelegate.qml</file>
+		<file>Resources\save.png</file>
+		<file>Resources\up.png</file>
 		<file>Views\EventDelegate.qml</file>
+		<file>Views\GroupDelegate.qml</file>
 		<file>Views\main.qml</file>
 		<file>Views\mainPresenter.js</file>
 		<file>Views\tools.js</file>

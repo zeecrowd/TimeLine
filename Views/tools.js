@@ -32,9 +32,9 @@ function findInListModel(listModel, findDelegate)
     for (var i=0;i<listModel.count;i++)
     {
         if (findDelegate(listModel.get(i)))
-            return listModel.get(i);
+            return i;
     }
-    return null;
+    return -1;
 }
 
 function getIndexInListModel(listModel, findDelegate)
@@ -68,6 +68,39 @@ function removeInDeeperListModel(listModel, repeater, findDelegate)
                 elt.eventModel.remove(index)
                 return;
             }
+        }
+    }
+}
+
+function getUpperModelIndexForLowerElement(listModel, repeater, findDelegate)
+{
+    for (var i=0;i<listModel.count;i++)
+    {
+        var elt = repeater.itemAt(i)
+        if (elt !== null && elt !== undefined)
+        {
+            var index = getIndexInListModel(elt.eventModel, findDelegate)
+            if (index !== -1)
+            {
+                return [i, index];
+            }
+        }
+    }
+    return [-1,-1];
+}
+
+function cleanAllListModels(mainListModel, repeater)
+{
+    for (var i=mainListModel.count-1;i>=0;i--)
+    {
+        var elt = repeater.itemAt(i)
+        if (elt !== null && elt !== undefined)
+        {
+            for (var j=elt.eventModel.count-1; j>=0; j--)
+            {
+                elt.eventModel.remove(j)
+            }
+            mainListModel.remove(i)
         }
     }
 }

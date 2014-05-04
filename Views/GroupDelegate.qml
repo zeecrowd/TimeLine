@@ -27,7 +27,7 @@ import "tools.js" as Tools
 
 Rectangle
 {
-    id: dayLineDelegate
+    id: groupLineDelegate
     width : wholeView.width
     property alias eventModel : plans
 
@@ -41,7 +41,7 @@ Rectangle
         id: dayLineColumn
         onHeightChanged:
         {
-            dayLineDelegate.height = dayLineColumn.height
+            groupLineDelegate.height = dayLineColumn.height
         }
         Row
         {
@@ -54,7 +54,7 @@ Rectangle
                 width       : 50
                 height      : 50
 
-                MouseArea
+                /*MouseArea
                 {
                     anchors.fill: parent
                     acceptedButtons: Qt.LeftButton
@@ -71,11 +71,12 @@ Rectangle
                                 }
                         eventDefinition.setItem(id,JSON.stringify(tmp))
                     }
-                }
+                }*/
             }
             TextInput
             {
                 id:dateInput
+                visible: month === "-1"
                 font.pixelSize: 22
                 font.bold: true
                 color: "#800020"
@@ -83,18 +84,18 @@ Rectangle
                 inputMask:"99/99/9999"
                 text:date
                 selectByMouse:true
-                onEditingFinished:
+                /*onEditingFinished:
                 {
                     if (text === date)
                         return;
-                    dayLineDelegate.refreshDate()
+                    groupLineDelegate.refreshGroupName()
                     var tmp =
                             {
                                 dayId: dayId,
                                 date : text
                             }
                     dateDefinition.setItem(dayId,JSON.stringify(tmp))
-                }
+                }*/
             }
             Text
             {
@@ -105,36 +106,19 @@ Rectangle
             }
             Text
             {
-                id: dayFullName
+                id: groupFullName
                 font.pixelSize: 22
                 font.bold: true
                 text:"theDay"
                 color: "#800020"
                 anchors.verticalCenter: newEvent.verticalCenter
-                MouseArea
-                {
-                    anchors.fill: parent
-                    acceptedButtons: Qt.RightButton
-                    onClicked:
-                    {
-                        dateDefinition.deleteItem(dayId)
-                        for (var i = 0; i < plans.count; ++i)
-                        {
-                            var elt = plans.get(i)
-                            if (elt !== null && elt !== undefined)
-                            {
-                                eventDefinition.deleteItem(elt.evtId)
-                            }
-                        }
-                    }
-                }
             }
         }
 
         Column
         {
             spacing:3
-            width : dayLineDelegate.width
+            width : groupLineDelegate.width
             id : forTheDays
             Repeater
             {
@@ -147,10 +131,17 @@ Rectangle
         }
     }
 
-    function refreshDate()
+    function refreshGroupName()
     {
-        var split = dateInput.text.split('/')
-        var date = new Date(split[2], split[1]*1-1, split[0])
-        dayFullName.text = Qt.formatDate( date, "dddd d MMMM yyyy" ).toUpperCase()
+        if (dateInput.visible)
+        {
+            var split = dateInput.text.split('/')
+            var date = new Date(split[2], split[1]*1-1, split[0])
+            groupFullName.text = Qt.formatDate( date, "dddd d MMMM yyyy" ).toUpperCase()
+        }
+        else
+        {
+
+        }
     }
 }

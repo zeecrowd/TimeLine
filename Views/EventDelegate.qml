@@ -19,45 +19,50 @@
 * along with this program. If not, see <http://www.gnu.org/licenses/>.
 */
 import QtQuick 2.2
+import QtQuick.Controls 1.1
 
 Rectangle {
     id: eventDesc
     height:75
     width: parent.width
     color:"#F0F8FF"
+
+    Component.onCompleted:
+    {
+        displayDesc.state = "overview"
+    }
+
     Row
     {
-        spacing: 10
+        id : displayDesc
+        states:[
+            State
+            {
+                name: "overview"
+                StateChangeScript {script: eventDesc.overviewView()}
+            },
+            State
+            {
+                name: "details"
+                StateChangeScript {script: eventDesc.detailsView()}
+            }]
+
         Rectangle
         {
             id: horaire
-            x:1;y:1
             width : 120
-            height : eventDesc.height-1
+            height : eventDesc.height
             color : "#F2F3F4"
             Column
             {
                 TextInput
                 {
+                    id: fromInput
                     x:10
                     text: from
                     font.pixelSize: 21
                     color:"#536872"
                     inputMask:"99:99"
-                    onEditingFinished:
-                    {
-                        if (text === from)
-                            return;
-                        var tmp =
-                                {
-                                    dayId: dayId,
-                                    evtId: evtId,
-                                    desc : desc,
-                                    from : text,
-                                    to   : to
-                                }
-                        eventDefinition.setItem(evtId,JSON.stringify(tmp))
-                    }
                 }
                 Row
                 {
@@ -70,71 +75,168 @@ Rectangle {
                     }
                     TextInput
                     {
+                        id: toInput
                         text: to
                         font.pixelSize: 21
                         color:"#536872"
                         inputMask:"99:99"
-                        onEditingFinished:
-                        {
-                            if (text === to)
-                                return;
-                            var tmp =
-                                    {
-                                        dayId: dayId,
-                                        evtId: evtId,
-                                        desc : desc,
-                                        from : from,
-                                        to   : text
-                                    }
-                            eventDefinition.setItem(evtId,JSON.stringify(tmp))
-                        }
                     }
                 }
             }
         }
 
-        TextInput
+        TextArea
         {
-            id: descInput
-            width: eventDesc.width - horaire.width - 11
-            height: eventDesc.height
-            text:desc
-            font.pixelSize: 22
-            wrapMode: TextInput.Wrap
-            selectByMouse:true
-            onEditingFinished:
+            id                : descInput
+            width             : eventDesc.width - horaire.width
+            height            : eventDesc.height
+            text              : desc
+            font.pixelSize    : 22
+            wrapMode          : TextInput.Wrap
+            selectByMouse     : true
+            backgroundVisible : false
+        }
+    }
+
+    MouseArea
+    {
+        id : mouseAreaDetails
+        anchors.fill: parent
+        onClicked:
+        {
+            if (displayDesc.state === "details")
             {
-                if (text === desc)
-                    return;
-                var tmp =
-                        {
-                            dayId: dayId,
-                            evtId: evtId,
-                            desc : text,
-                            from : from,
-                            to   : to
-                        }
-                eventDefinition.setItem(evtId,JSON.stringify(tmp))
+                displayDesc.state = "overview"
+            }
+            else
+            {
+                displayDesc.state = "details"
             }
         }
     }
+
     Image
     {
-        id         : removeEvent
-        anchors.margins: 5
-        source     : "qrc:/TimeLine/Resources/remove.png"
-        height     : eventDesc.height/3
-        width      : height
-        anchors.right: eventDesc.right
-        anchors.top: eventDesc.top
-
+        id              : backToOverview
+        anchors.margins : 5
+        source          : "qrc:/TimeLine/Resources/up.png"
+        height          : 30
+        width           : height
+        anchors.right   : eventDesc.right
+        anchors.top     : eventDesc.top
         MouseArea
         {
             anchors.fill: parent
             onClicked:
             {
-                eventDefinition.deleteItem(evtId)
+                displayDesc.state = "overview"
             }
         }
+    }
+
+
+    Row
+    {
+        id : buttonsRow
+        anchors.right   : eventDesc.right
+        anchors.bottom  : eventDesc.bottom
+        Rectangle
+        {
+            height : 33
+            width  : 100
+            color : "transparent"
+            Image
+            {
+                id              : saveEvent
+                anchors.margins : 5
+                source          : "qrc:/TimeLine/Resources/save.png"
+                height          : 30
+                width           : height
+
+            }
+            MouseArea
+            {
+                anchors.fill: parent
+                onClicked:
+                {
+                    var tmp =
+                            {
+                                date : dayId,
+                                desc : descInput.text,
+                                from : fromInput.text,
+                                to   : toInput.text
+                            }
+                    displayDesc.state = "overview"
+                    eventDefinition.setItem(evtId,JSON.stringify(tmp))
+                }
+            }
+            Text
+            {
+                x:32
+                font.pixelSize: 17
+                text: "Save"
+                anchors.verticalCenter: saveEvent.verticalCenter
+            }
+        }
+
+        Rectangle
+        {
+            height : 33
+            width  : 100
+            color : "transparent"
+            Image
+            {
+                id              : removeEvent
+                anchors.margins : 5
+                source          : "qrc:/TimeLine/Resources/remove.png"
+                height          : 30
+                width           : height
+            }
+            MouseArea
+            {
+                anchors.fill: parent
+                onClicked:
+                {
+                    displayDesc.state = "overview"
+                    eventDefinition.deleteItem(evtId)
+                }
+            }
+            Text
+            {
+                x:32
+                font.pixelSize: 17
+                text: "Remove"
+                anchors.verticalCenter: removeEvent.verticalCenter
+            }
+        }
+    }
+
+    function overviewView()
+    {
+        eventDesc.height = 75
+        eventDesc.color = "#F0F8FF"
+        descInput.readOnly = true
+        fromInput.readOnly = true
+        toInput.readOnly = true
+        fromInput.color = "#536872"
+        toInput.color = "#536872"
+        descInput.textColor = "black"
+        mouseAreaDetails.enabled = true
+        buttonsRow.visible = false
+        backToOverview.visible = false
+    }
+
+    function detailsView()
+    {
+        eventDesc.height = 250
+        eventDesc.color = "#FFF5DB"
+        descInput.readOnly = false
+        fromInput.readOnly = false
+        toInput.readOnly = false
+        fromInput.color = "#000099"
+        toInput.color = "#000099"
+        mouseAreaDetails.enabled = false
+        buttonsRow.visible = true
+        backToOverview.visible = true
     }
 }

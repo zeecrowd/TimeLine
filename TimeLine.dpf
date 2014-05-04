@@ -91,15 +91,8 @@
               <Items />
             </QtResourceFile>
           </Item>
-        </Items>
-      </QtResourceProjectFolder>
-    </Item>
-    <Item Template="QtResourceProjectFolder">
-      <QtResourceProjectFolder Name="Views">
-        <Properties />
-        <Items>
           <Item Template="QtResourceFile">
-            <QtResourceFile FileName="DayLineDelegate.qml">
+            <QtResourceFile FileName="save.png">
               <Properties>
                 <BuildAction value="Compile" />
                 <Locale value="" />
@@ -109,11 +102,42 @@
             </QtResourceFile>
           </Item>
           <Item Template="QtResourceFile">
+            <QtResourceFile FileName="up.png">
+              <Properties>
+                <BuildAction value="Compile" />
+              </Properties>
+              <Items />
+            </QtResourceFile>
+          </Item>
+        </Items>
+      </QtResourceProjectFolder>
+    </Item>
+    <Item Template="QtResourceProjectFolder">
+      <QtResourceProjectFolder Name="Views">
+        <Properties />
+        <Items>
+          <Item Template="QtResourceFile">
             <QtResourceFile FileName="EventDelegate.qml">
               <Properties>
                 <BuildAction value="Compile" />
                 <Locale value="" />
                 <Alias value="" />
+                <CopyAs value="" />
+                <CopyToOutputDirectory value="Never" />
+                <CustomTool value="" />
+              </Properties>
+              <Items />
+            </QtResourceFile>
+          </Item>
+          <Item Template="QtResourceFile">
+            <QtResourceFile FileName="GroupDelegate.qml">
+              <Properties>
+                <BuildAction value="Compile" />
+                <Alias value="" />
+                <CopyAs value="" />
+                <CopyToOutputDirectory value="Never" />
+                <CustomTool value="" />
+                <Locale value="" />
               </Properties>
               <Items />
             </QtResourceFile>
