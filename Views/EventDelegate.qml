@@ -60,7 +60,7 @@ Rectangle {
                     id: fromInput
                     x:10
                     text: from
-                    font.pixelSize: 21
+                    font.pixelSize: 19
                     color:"#536872"
                     inputMask:"99:99"
                 }
@@ -77,7 +77,7 @@ Rectangle {
                     {
                         id: toInput
                         text: to
-                        font.pixelSize: 21
+                        font.pixelSize: 19
                         color:"#536872"
                         inputMask:"99:99"
                     }

@@ -36,6 +36,11 @@ Rectangle
         id:plans
     }
 
+    Component.onCompleted:
+    {
+        refreshGroupName(date, month)
+    }
+
     Column
     {
         id: dayLineColumn
@@ -73,37 +78,6 @@ Rectangle
                     }
                 }*/
             }
-            TextInput
-            {
-                id:dateInput
-                visible: month === "-1"
-                font.pixelSize: 22
-                font.bold: true
-                color: "#800020"
-                anchors.verticalCenter: newEvent.verticalCenter
-                inputMask:"99/99/9999"
-                text:date
-                selectByMouse:true
-                /*onEditingFinished:
-                {
-                    if (text === date)
-                        return;
-                    groupLineDelegate.refreshGroupName()
-                    var tmp =
-                            {
-                                dayId: dayId,
-                                date : text
-                            }
-                    dateDefinition.setItem(dayId,JSON.stringify(tmp))
-                }*/
-            }
-            Text
-            {
-                font.pixelSize: 22
-                text:" - "
-                color: "#800020"
-                anchors.verticalCenter: newEvent.verticalCenter
-            }
             Text
             {
                 id: groupFullName
@@ -131,17 +105,17 @@ Rectangle
         }
     }
 
-    function refreshGroupName()
+    function refreshGroupName(date, month)
     {
-        if (dateInput.visible)
+        var split = date.split('/')
+        var newdate = new Date(split[2], split[1]*1, split[0])
+        if (month === "-1")
         {
-            var split = dateInput.text.split('/')
-            var date = new Date(split[2], split[1]*1-1, split[0])
-            groupFullName.text = Qt.formatDate( date, "dddd d MMMM yyyy" ).toUpperCase()
+            groupFullName.text = Qt.formatDate( newdate, "dddd d MMMM yyyy" ).toUpperCase()
         }
         else
         {
-
+            groupFullName.text = Qt.formatDate( newdate, "MMMM yyyy" ).toUpperCase()
         }
     }
 }

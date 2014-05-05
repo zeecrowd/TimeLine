@@ -261,7 +261,7 @@ Zc.AppView
                     var elt = bodyRepeaterId.itemAt(groupIndex[0])
                     var evtIndex = groupIndex[1]
                     var eltEvent = elt.eventModel.get(evtIndex)
-                    if (timeLine.state === "groupByDay")
+                    if (timeLine.state === "groupedByDay")
                     {
                         if (groupModel.get(groupIndex[0]).date !== o.date)
                         {
@@ -275,7 +275,7 @@ Zc.AppView
                             elt.eventModel.setProperty(evtIndex,"to",o.to)
                         }
                     }
-                    else if (timeLine.state === "groupByMonth")
+                    else if (timeLine.state === "groupedByMonth")
                     {
                         if (groupModel.get(groupIndex[0]).month !== newMonth)
                         {
