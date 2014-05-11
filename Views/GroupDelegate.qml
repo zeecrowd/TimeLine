@@ -59,24 +59,28 @@ Rectangle
                 width       : 50
                 height      : 50
 
-                /*MouseArea
+                MouseArea
                 {
                     anchors.fill: parent
                     acceptedButtons: Qt.LeftButton
                     onClicked:
                     {
                         var id = Tools.generateId()
+                        var newEventDate = date
+                        if (month !== "-1")
+                        {
+                            newEventDate = "01" + "/" + month
+                        }
                         var tmp =
                                 {
-                                    dayId: dayId,
-                                    evtId: id,
-                                    desc : "Description de l'event",
+                                    date : newEventDate,
+                                    desc : "Description",
                                     from : "08:00",
                                     to   : "08:00"
                                 }
                         eventDefinition.setItem(id,JSON.stringify(tmp))
                     }
-                }*/
+                }
             }
             Text
             {
@@ -108,7 +112,7 @@ Rectangle
     function refreshGroupName(date, month)
     {
         var split = date.split('/')
-        var newdate = new Date(split[2], split[1]*1, split[0])
+        var newdate = new Date(split[2], split[1]*1-1, split[0])
         if (month === "-1")
         {
             groupFullName.text = Qt.formatDate( newdate, "dddd d MMMM yyyy" ).toUpperCase()

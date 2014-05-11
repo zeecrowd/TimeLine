@@ -66,6 +66,11 @@ function removeInDeeperListModel(listModel, repeater, findDelegate)
             if (index !== -1)
             {
                 elt.eventModel.remove(index)
+                console.log("************ removeInDeeperListModel elt.eventModel.count : " + elt.eventModel.count)
+                if (elt.eventModel.count === 0)
+                {
+                    listModel.remove(i)
+                }
                 return;
             }
         }

@@ -56,8 +56,8 @@ Zc.AppView
         Action {
             id: addAction
             shortcut: "Ctrl+T"
-            iconSource: "qrc:/TimeLine/Resources/day.png"
-            tooltip : "Add New Day"
+            iconSource: "qrc:/TimeLine/Resources/add.png"
+            tooltip : "Add New Event"
             onTriggered:
             {
                 mainView.addEvent();
@@ -89,7 +89,7 @@ Zc.AppView
         },*/
         Action {
             id: groupByMonth
-            iconSource: "qrc:/TimeLine/Resources/day.png"
+            iconSource: "qrc:/TimeLine/Resources/month.png"
             tooltip : "Group by month"
             onTriggered:
             {
@@ -118,7 +118,6 @@ Zc.AppView
 
     function groupByDay()
     {
-        console.log("************ groupByDay")
         Tools.cleanAllListModels(groupModel, bodyRepeaterId)
         var allItems = eventDefinition.getAllItems()
         Tools.forEachInArray(allItems,function(idItem)
@@ -130,43 +129,38 @@ Zc.AppView
     }
     function groupByWeek()
     {
-        console.log("************ groupByWeek")
         Tools.cleanAllListModels(groupModel, bodyRepeaterId)
         var allItems = eventDefinition.getAllItems()
     }
     function groupByMonth()
     {
-        console.log("************ groupByMonth")
         Tools.cleanAllListModels(groupModel, bodyRepeaterId)
         var allItems = eventDefinition.getAllItems()
         Tools.forEachInArray(allItems,function(idItem)
                 {
                     var val = eventDefinition.getItem(idItem,"");
                     var o = Tools.parseDatas(val)
-                    var newMonth = o.date.split('/')[1]
+                    var splittedDate = o.date.split('/')
+                    var newMonth = splittedDate[1] + "/" + splittedDate[2]
                     mainView.addNewEventInMonthView(idItem, o, newMonth)
                 });
     }
 
     function addEvent()
     {
-        console.log("*********** addEvent")
         var id = Tools.generateId()
         var allItems = eventDefinition.getAllItems() // TEMP
         Tools.forEachInArray(allItems,function(idItem)
                 {
-                    console.log("*********** addEvent ALL_ITEMS idItem : " + idItem)
                 });
         var myDate = new Date()
         var tmp =
                 {
-                    date : myDate.getDate() + "/" + myDate.getMonth() + "/" + myDate.getFullYear(),
-                    from : "14:00",
-                    to   : "14:00",
-                    desc : "A l'abandon paton paton"
+                    date : Qt.formatDate( myDate, "dd/MM/yyyy" ),
+                    from : "08:00",
+                    to   : "08:00",
+                    desc : "Description"
                 }
-        console.log("*********** addEvent tmp id : " + id)
-        console.log("*********** addEvent tmp tmp : " + JSON.stringify(tmp))
         eventDefinition.setItem(id,JSON.stringify(tmp))
     }
 
@@ -249,13 +243,11 @@ Zc.AppView
 
             onItemChanged:
             {
-                console.log("************ onItemChanged")
                 var val = getItem(idItem,"")
                 var o = Tools.parseDatas(val)
-                console.log("************ onItemChanged item : " + o)
-                var newMonth = o.date.split('/')[1]
+                var splittedDate = o.date.split('/')
+                var newMonth = splittedDate[1] + "/" + splittedDate[2]
                 var groupIndex = Tools.getUpperModelIndexForLowerElement(groupModel, bodyRepeaterId, function(x) {return x.evtId === idItem});
-                console.log("************ onItemChanged groupIndex : " + groupIndex)
                 if (groupIndex[0] !== -1)
                 {
                     var elt = bodyRepeaterId.itemAt(groupIndex[0])
@@ -266,6 +258,10 @@ Zc.AppView
                         if (groupModel.get(groupIndex[0]).date !== o.date)
                         {
                             elt.eventModel.remove(evtIndex)
+                            if (elt.eventModel.count === 0)
+                            {
+                                groupModel.remove(groupIndex[0])
+                            }
                             mainView.addNewEventInDayView(idItem, o)
                         }
                         else
@@ -292,7 +288,6 @@ Zc.AppView
                 }
                 else
                 {
-                    console.log("************ onItemChanged timeLine.state : " + timeLine.state)
                     if (timeLine.state === "groupedByDay")
                     {
                         mainView.addNewEventInDayView(idItem, o)
@@ -305,7 +300,6 @@ Zc.AppView
             }
             onItemDeleted:
             {
-                console.log("************ onItemDeleted item : " + idItem)
                 Tools.removeInDeeperListModel(groupModel, bodyRepeaterId, function(x) {return x.evtId === idItem})
             }
         }
@@ -313,28 +307,25 @@ Zc.AppView
 
     function addNewEventInDayView(idItem, item)
     {
-        console.log("****** addNewEventInDayView")
         var newGroupIndex = Tools.findInListModel(groupModel, function(x) {return x.date === item.date})
-        console.log("****** addNewEventInDayView newGroupIndex : " + newGroupIndex)
         if (newGroupIndex === -1)
         {
             var tmpGroup = {
                 date  : item.date,
                 month : "-1"
             }
-            console.log("****** addNewEventInDayView tmpGroup : " + tmpGroup)
             groupModel.append(tmpGroup)
             newGroupIndex = groupModel.count-1
         }
         var newElt = bodyRepeaterId.itemAt(newGroupIndex)
         var tmpEvent = {
+            view : "d",
             evtId: idItem,
             dayId: item.date,
             desc : item.desc,
             from : item.from,
             to   : item.to
         }
-        console.log("****** addNewEventInDayView tmpEvent : " + tmpEvent)
         newElt.eventModel.append(tmpEvent)
     }
 
@@ -345,28 +336,25 @@ Zc.AppView
 
     function addNewEventInMonthView(idItem, item, newMonth)
     {
-        console.log("****** addNewEventInMonthView")
         var newGroupIndex = Tools.findInListModel(groupModel, function(x) {return x.month === newMonth})
-        console.log("****** addNewEventInMonthView newGroupIndex : " + newGroupIndex)
         if (newGroupIndex === -1)
         {
             var tmpGroup = {
                 date  : item.date,
                 month : newMonth
             }
-            console.log("****** addNewEventInMonthView tmpGroup : " + tmpGroup)
             groupModel.append(tmpGroup)
             newGroupIndex = groupModel.count-1
         }
         var newElt = bodyRepeaterId.itemAt(newGroupIndex)
         var tmpEvent = {
+            view : "m",
             evtId: idItem,
             dayId: item.date,
             desc : item.desc,
             from : item.from,
             to   : item.to
         }
-        console.log("****** addNewEventInMonthView tmpEvent : " + tmpEvent)
         newElt.eventModel.append(tmpEvent)
     }
 }

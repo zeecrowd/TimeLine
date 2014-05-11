@@ -23,7 +23,7 @@ import QtQuick.Controls 1.1
 
 Rectangle {
     id: eventDesc
-    height:75
+    height:80
     width: parent.width
     color:"#F0F8FF"
 
@@ -55,6 +55,28 @@ Rectangle {
             color : "#F2F3F4"
             Column
             {
+                TextInput
+                {
+                    visible:false
+                    id:dateInput
+                    x:10
+                    font.pixelSize: 19
+                    color:"#536872"
+                    inputMask:"99/99/9999" // MM dd YYYY
+                    onEditingFinished:
+                    {
+                        eventDesc.refreshDateFullName()
+                    }
+                }
+                Text
+                {
+                    visible: view !== "d"
+                    height:30
+                    id:dateInputFullName
+                    x:10
+                    font.pixelSize: 19
+                    color:"#536872"
+                }
                 TextInput
                 {
                     id: fromInput
@@ -152,16 +174,17 @@ Rectangle {
                 source          : "qrc:/TimeLine/Resources/save.png"
                 height          : 30
                 width           : height
-
             }
             MouseArea
             {
                 anchors.fill: parent
                 onClicked:
                 {
+                    var split = dateInput.text.split('/')
+                    var newdate = new Date(split[2], split[1]*1-1, split[0])
                     var tmp =
                             {
-                                date : dayId,
+                                date : Qt.formatDate( newdate, "dd/MM/yyyy" ),
                                 desc : descInput.text,
                                 from : fromInput.text,
                                 to   : toInput.text
@@ -213,12 +236,16 @@ Rectangle {
 
     function overviewView()
     {
+        dateInput.visible = false
+        dateInput.text = dayId
+        refreshDateFullName()
         eventDesc.height = 75
         eventDesc.color = "#F0F8FF"
         descInput.readOnly = true
         fromInput.readOnly = true
         toInput.readOnly = true
         fromInput.color = "#536872"
+        dateInput.color = "#536872"
         toInput.color = "#536872"
         descInput.textColor = "black"
         mouseAreaDetails.enabled = true
@@ -228,6 +255,9 @@ Rectangle {
 
     function detailsView()
     {
+        dateInput.visible = true
+        dateInput.text = dayId
+        refreshDateFullName()
         eventDesc.height = 250
         eventDesc.color = "#FFF5DB"
         descInput.readOnly = false
@@ -235,8 +265,16 @@ Rectangle {
         toInput.readOnly = false
         fromInput.color = "#000099"
         toInput.color = "#000099"
+        dateInput.color = "#000099"
         mouseAreaDetails.enabled = false
         buttonsRow.visible = true
         backToOverview.visible = true
+    }
+
+    function refreshDateFullName()
+    {
+        var split = dateInput.text.split('/')
+        var newdate = new Date(split[2], split[1]*1-1, split[0])
+        dateInputFullName.text = Qt.formatDate( newdate, "ddd d" ).toUpperCase()
     }
 }
