@@ -4,7 +4,7 @@
     <a:ZeeapManifestMetaData>
       <a:ZeeapManifestMetaData.AppName>TimeLine</a:ZeeapManifestMetaData.AppName>
       <a:ZeeapManifestMetaData.Author>Zeecrowd</a:ZeeapManifestMetaData.Author>
-      <a:ZeeapManifestMetaData.Version>100</a:ZeeapManifestMetaData.Version>
+      <a:ZeeapManifestMetaData.Version>101</a:ZeeapManifestMetaData.Version>
       <a:ZeeapManifestMetaData.AppConfig>TimeLine.cfg</a:ZeeapManifestMetaData.AppConfig>
     </a:ZeeapManifestMetaData>
   </a:ZeeapManifest.Metadata>
